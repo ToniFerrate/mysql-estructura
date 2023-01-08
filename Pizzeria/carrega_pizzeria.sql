@@ -1,0 +1,22 @@
+delete from client;
+delete from botiga;
+delete from empleat;
+delete from comanda;
+delete from productes;
+delete from categoria;
+INSERT INTO `pizzeria`.`client` (`idclient`, `nom`, `cognoms`, `adreça`, `codi_postal`, `localitat`, `provincia`, `telefon`) VALUES ('1', 'Toni', 'Ferraté', 'Mandri 2 entressol 1', '08022', 'Barcelona', 'Barcelona', '646014716');
+INSERT INTO `pizzeria`.`client` (`idclient`, `nom`, `cognoms`, `adreça`, `codi_postal`, `localitat`, `provincia`, `telefon`) VALUES ('2', 'Pere', 'Garcia', 'Av. Generalitat 3. 7', '08534', 'Sant Cugat del Vallès', 'Barcelona', '673456349');
+INSERT INTO `pizzeria`.`botiga` (`idbotiga`, `adressa`, `codi_postal`, `localitat`, `provincia`) VALUES ('1', 'Av del Comerç', '08023', 'Barcelona', 'Barcelona');
+INSERT INTO `pizzeria`.`botiga` (`idbotiga`, `adressa`, `codi_postal`, `localitat`, `provincia`) VALUES ('2', 'Carrer del metall', '08678', 'Sant Cugat del Vallès', 'Barcelona');
+INSERT INTO `pizzeria`.`empleat` (`idempleat`, `nom`, `cognoms`, `nif`, `telefon`, `idbotiga`) VALUES ('2', 'Laura', 'Borras', '45637629f', '678356723', '1');
+INSERT INTO `pizzeria`.`empleat` (`idempleat`, `nom`, `cognoms`, `nif`, `telefon`, `idbotiga`) VALUES ('1', 'Jordi', 'Mallol', '56734876G', '567453971', '2');
+INSERT INTO `pizzeria`.`comanda` (`idcomanda`, `idclient`, `data_hora`, `quantitat`, `preu_total`, `idrepartidor`, `data_hora_lliurament`, `idbotiga`) VALUES ('1', '1', '2022-04-22 20:00:00', '2', '34', '1', '2022-04-22 20:32:00', '2');
+INSERT INTO `pizzeria`.`comanda` (`idcomanda`, `idclient`, `data_hora`, `quantitat`, `preu_total`, `idrepartidor`, `data_hora_lliurament`, `idbotiga`) VALUES ('2', '2', '2022-04-22 21:00:00', '3', '50', '2', '2022-04-22 21:25:00', '1');
+INSERT INTO `pizzeria`.`categoria` (`idcategoria`, `nom`) VALUES ('1', 'Pizzes especials');
+INSERT INTO `pizzeria`.`categoria` (`idcategoria`, `nom`) VALUES ('2', 'Pizzes amb 30% de descompte');
+INSERT INTO `pizzeria`.`productes` (`idproducte`, `idcomanda`, `nom`, `descripcio`, `tipus_p_h_b`, `idcategoria`, `imatge`, `preu`) VALUES ('1', '1', 'Pizza Margarita', 'Amb mozzarella', 'p', '1', 'img1', '20');
+INSERT INTO `pizzeria`.`productes` (`idproducte`, `idcomanda`, `nom`, `descripcio`, `tipus_p_h_b`, `idcategoria`, `imatge`, `preu`) VALUES ('2', '1', 'Beguda', 'Llauna Coca Cola', 'b', null, 'img2', '12');
+INSERT INTO `pizzeria`.`productes` (`idproducte`, `idcomanda`, `nom`, `descripcio`, `tipus_p_h_b`, `idcategoria`, `imatge`, `preu`) VALUES ('3', '2', 'Pizza Peperoni', 'Amb peperoni picant', 'p', '2', 'img3', '22');
+INSERT INTO `pizzeria`.`productes` (`idproducte`, `idcomanda`, `nom`, `descripcio`, `tipus_p_h_b`, `idcategoria`, `imatge`, `preu`) VALUES ('4', '2', 'Fanta', 'Llauna 33cc', 'b', null, 'img4', '3');
+INSERT INTO `pizzeria`.`productes` (`idproducte`, `idcomanda`, `nom`, `descripcio`, `tipus_p_h_b`, `idcategoria`, `imatge`, `preu`) VALUES ('5', '2', 'Hamburguesa especial', 'Amb formatge i bacon', 'h', null, 'img5', '25');
+
