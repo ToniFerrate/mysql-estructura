@@ -128,25 +128,44 @@ DROP TABLE IF EXISTS `pizzeria`.`productes` ;
 
 CREATE TABLE IF NOT EXISTS `pizzeria`.`productes` (
   `idproducte` INT NOT NULL,
-  `idcomanda` INT NULL,
   `nom` VARCHAR(20) NULL,
   `descripcio` VARCHAR(45) NULL,
   `tipus_p_h_b` VARCHAR(1) NULL,
   `idcategoria` INT NULL,
   `imatge` VARCHAR(45) NULL,
   `preu` FLOAT NOT NULL,
-  INDEX `comanda_idx` (`idcomanda` ASC) VISIBLE,
   INDEX `categoria_idx` (`idcategoria` ASC) VISIBLE,
   PRIMARY KEY (`idproducte`),
   UNIQUE INDEX `idproducte_UNIQUE` (`idproducte` ASC) VISIBLE,
-  CONSTRAINT `comanda`
-    FOREIGN KEY (`idcomanda`)
-    REFERENCES `pizzeria`.`comanda` (`idcomanda`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
   CONSTRAINT `categoria`
     FOREIGN KEY (`idcategoria`)
     REFERENCES `pizzeria`.`categoria` (`idcategoria`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pizzeria`.`DetallComanda`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pizzeria`.`DetallComanda` ;
+
+CREATE TABLE IF NOT EXISTS `pizzeria`.`DetallComanda` (
+  `idComanda` INT NOT NULL,
+  `IdProducte` INT NOT NULL,
+  `Quantitat` INT NOT NULL,
+  `preu_total` FLOAT NOT NULL,
+  INDEX `FK__comanda_idx` (`idComanda` ASC) VISIBLE,
+  INDEX `FK_producte_idx` (`IdProducte` ASC) VISIBLE,
+  PRIMARY KEY (`idComanda`, `IdProducte`),
+  CONSTRAINT `FK__comanda`
+    FOREIGN KEY (`idComanda`)
+    REFERENCES `pizzeria`.`comanda` (`idcomanda`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `FK_producte`
+    FOREIGN KEY (`IdProducte`)
+    REFERENCES `pizzeria`.`productes` (`idproducte`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;

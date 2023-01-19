@@ -38,13 +38,44 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `optica`.`marca`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `optica`.`marca` ;
+
+CREATE TABLE IF NOT EXISTS `optica`.`marca` (
+  `idmarca` INT NOT NULL,
+  `idproveidor` INT NOT NULL,
+  `nom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idmarca`, `idproveidor`),
+  UNIQUE INDEX `idmarca_UNIQUE` (`idmarca` ASC) VISIBLE,
+  INDEX `FK_proveidor_idx` (`idproveidor` ASC) VISIBLE,
+  CONSTRAINT `FK_proveidor`
+    FOREIGN KEY (`idproveidor`)
+    REFERENCES `optica`.`proveidor` (`idproveidor`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `optica`.`empleat`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `optica`.`empleat` ;
+
+CREATE TABLE IF NOT EXISTS `optica`.`empleat` (
+  `idempleat` INT NOT NULL,
+  `nom` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idempleat`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `optica`.`ulleres`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `optica`.`ulleres` ;
 
 CREATE TABLE IF NOT EXISTS `optica`.`ulleres` (
-  `idproveidor` INT NOT NULL,
-  `marca` VARCHAR(45) NOT NULL,
+  `idmarca` INT NOT NULL,
   `graduacio_dreta` DECIMAL NULL,
   `graduacio_esquerra` DECIMAL NULL,
   `tipus_muntura` VARCHAR(25) NULL,
@@ -52,13 +83,20 @@ CREATE TABLE IF NOT EXISTS `optica`.`ulleres` (
   `color_vidre_dret` VARCHAR(25) NULL,
   `color_vidre_esquerra` VARCHAR(25) NULL,
   `preu` FLOAT NULL,
-  PRIMARY KEY (`idproveidor`, `marca`),
-  INDEX `idproveidor_idx` (`idproveidor` ASC) INVISIBLE,
-  CONSTRAINT `proveidor_ulleres`
-    FOREIGN KEY (`idproveidor`)
-    REFERENCES `optica`.`proveidor` (`idproveidor`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `idempleat` INT NULL,
+  PRIMARY KEY (`idmarca`),
+  INDEX `FK_empleat_idx` (`idempleat` ASC) VISIBLE,
+  UNIQUE INDEX `idmarca_UNIQUE` (`idmarca` ASC) VISIBLE,
+  CONSTRAINT `FK_marca`
+    FOREIGN KEY (`idmarca`)
+    REFERENCES `optica`.`marca` (`idmarca`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `FK_empleat`
+    FOREIGN KEY (`idempleat`)
+    REFERENCES `optica`.`empleat` (`idempleat`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -77,24 +115,22 @@ CREATE TABLE IF NOT EXISTS `optica`.`client` (
   `ciutat` VARCHAR(45) NULL,
   `codi_postal` VARCHAR(5) NULL,
   `client_id` INT NULL,
-  `empleat` VARCHAR(45) NULL,
-  `idproveidor` INT NULL,
-  `marca` VARCHAR(45) NULL,
+  `idmarca` INT NOT NULL,
   `data_registre` DATETIME NOT NULL,
   PRIMARY KEY (`idclient`),
   INDEX `client_recomanat_idx` (`client_id` ASC) INVISIBLE,
-  INDEX `idproveidor_idx` (`idproveidor` ASC, `marca` ASC) INVISIBLE,
   UNIQUE INDEX `idclient_UNIQUE` (`idclient` ASC) VISIBLE,
+  INDEX `FK_idmarca_idx` (`idmarca` ASC) VISIBLE,
   CONSTRAINT `client_recomanat`
     FOREIGN KEY (`client_id`)
     REFERENCES `optica`.`client` (`idclient`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `client_ulleres`
-    FOREIGN KEY (`idproveidor` , `marca`)
-    REFERENCES `optica`.`ulleres` (`idproveidor` , `marca`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `FK_idmarca`
+    FOREIGN KEY (`idmarca`)
+    REFERENCES `optica`.`ulleres` (`idmarca`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
